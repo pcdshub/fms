@@ -1,0 +1,11 @@
+[run]
+source =
+    fms
+[report]
+omit =
+    #versioning
+    .*version.*
+    *_version.py
+    #tests
+    *test*
+    fms/tests/*
