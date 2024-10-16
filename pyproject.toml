@@ -39,6 +39,9 @@ file = "LICENSE"
 [tool.setuptools_scm]
 write_to = "fms/_version.py"
 
+[project.entry-points."happi.containers"]
+fms = "fms.happi.containers"
+
 [tool.setuptools.dynamic.readme]
 file = "README.rst"
 
