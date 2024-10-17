@@ -99,7 +99,7 @@ def test_FMSRaritanItem(clean_files):
 def test_FMSBeckhoffItem(clean_files):
     client = Client(path=test_file) 
     
-    #missing required entry info
+    #valid item
     item = client.create_item(item_cls=FMSBeckhoffItem,
             name="test",
             prefix="TEST:PV",
