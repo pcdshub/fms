@@ -78,8 +78,7 @@ def test_FMSRaritanItem(clean_files):
             low_alarm=1,
             bottom_alarm=1,
             parent_switch="test_src",
-            root_sensor=True,
-            root_sensor_port="1",
+            last_sensor_name = "tst-sensor-01",
             eth_dist_last=3)
     item.save()
     assert_valid(client)

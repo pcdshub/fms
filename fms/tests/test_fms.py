@@ -62,7 +62,7 @@ def test_add_src_controller(clean_files, monkeypatch):
         add_src_controller(client)
 
 def test_add_raritan_sensor(clean_files, monkeypatch):
-    inputs = iter(["foo", "Raritan","src-mec-01","3", 10, ])
+    inputs = iter(["foo", "Raritan","src-mec-01","3","sensor1-temp", 10])
     client, sensor = clean_files
 
     monkeypatch.setattr('builtins.input', lambda _:next(inputs))
@@ -70,7 +70,6 @@ def test_add_raritan_sensor(clean_files, monkeypatch):
 
     inputs = iter(["foo_name", "foo_type", "foo_type", "foo_type","src-mec-01","3", 10, ])
     monkeypatch.setattr('builtins.input', lambda _:next(inputs))
-
 
     with pytest.raises(ValueError):
        add_fms_sensor(client)
