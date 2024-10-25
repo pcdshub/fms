@@ -68,9 +68,9 @@ def test_add_raritan_sensor(clean_files, monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _:next(inputs))
     add_fms_sensor(client)
 
-    #inputs = iter(["foo_name", "foo_type", "foo_type", "foo_type","src-mec-01","3", 10, ])
-    #onkeypatch.setattr('builtins.input', lambda _:next(inputs))
+    inputs = iter(["foo_name", "foo_type", "foo_type", "foo_type","src-mec-01","3", 10, ])
+    monkeypatch.setattr('builtins.input', lambda _:next(inputs))
 
 
-    #ith pytest.raises(ValueError):
-    #   add_fms_sensor(client)
+    with pytest.raises(ValueError):
+       add_fms_sensor(client)
