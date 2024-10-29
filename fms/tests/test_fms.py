@@ -62,11 +62,15 @@ def test_add_src_controller(clean_files, monkeypatch):
         add_src_controller(client)
 
 def test_add_raritan_sensor(clean_files, monkeypatch):
-    inputs = iter(["foo", "Raritan","src-mec-01","3","sensor1-temp", 10])
     client, sensor = clean_files
 
+    inputs = iter(["src_mec_01"])
     monkeypatch.setattr('builtins.input', lambda _:next(inputs))
-    add_fms_sensor(client)
+    add_src_controller(client)
+
+    inputs = iter(["foo", "Raritan","src_mec_01","3","", 10])
+    monkeypatch.setattr('builtins.input', lambda _:next(inputs))
+    add_fms_sensor(client=client)
 
     inputs = iter(["foo_name", "foo_type", "foo_type", "foo_type","src-mec-01","3", 10, ])
     monkeypatch.setattr('builtins.input', lambda _:next(inputs))
