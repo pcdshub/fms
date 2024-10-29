@@ -23,7 +23,6 @@ class FMSItem(OphydItem):
 
 class FMSRaritanItem(FMSItem):
 
-    root_sensor_port = EntryInfo("switch port root sensor connected to 0-8", optional=True, default=None)
 
     def less_than_100(val):
         if int(val) <= 100:
@@ -36,6 +35,7 @@ class FMSRaritanItem(FMSItem):
             return val
         else:
             raise(EnforceError)
+    root_sensor_port = EntryInfo("switch port root sensor connected to 0-8", optional=True, default=None, enforce=re.compile(r'^[0-8]$'))
 
     parent_switch = EntryInfo("The raritan switch", optional=False, enforce=str)
 

@@ -1,4 +1,5 @@
 import sys, optparse, json, networkx as nx
+import matplotlib.pyplot as plt
 from .utils import TypeEnforcer as te
 from happi import Client
 from happi.item import OphydItem
@@ -29,10 +30,42 @@ def check_topology(src_controller, port, client=None):
         client = Client(path=fms_happi_database)
     
     src_controller = client.find_item(name=src_controller)
-    curr_sensor_list = json.loads(getattr(src_controller, "port" + port))
-
-    for sensor in curr_sensor_list:
-        print(sensor)
+    sensor_list_data = getattr(src_controller, "port" + str(port))
+    if sensor_list_data == None:
+        print("No sensors installed on this port")
+        return
+    curr_sensor_list = json.loads(sensor_list_data)
+    #nodes = [sensor[0] for sensor in curr_sensor_list]
+    edges = []
+    edge_labels = {}
+    node_labels = {}
+    total_cable_len = 0
+    total_systems = 6
+    for i in range(len(curr_sensor_list)):
+        node_labels[curr_sensor_list[i][0]] = f"{curr_sensor_list[i][0]}\n\n MEC-PR60-E2"
+        total_cable_len += curr_sensor_list[i][1]
+        if i == len(curr_sensor_list) - 1:
+            continue
+        edges.append((curr_sensor_list[i][0], curr_sensor_list[i+1][0]))
+        edge_labels[edges[i]] = curr_sensor_list[i + 1][1]
+    total_cable_len = "total cable len: " + str(total_cable_len) + "ft" + "\nMax: 100ft"
+    
+    print(f"preparing graph with edges: {edges}")
+    G = nx.Graph()
+    #G.add_nodes_from(nodes)
+    G.add_edges_from(edges)
+    pos = nx.spring_layout(G)
+    #plt.figure()
+    fig, ax = plt.subplots() 
+    nx.draw(G, pos, with_labels=False, font_weight='bold')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='green')
+    nx.draw_networkx_labels(G, pos, labels=node_labels)
+    ax.text(0.8,0.10,
+        total_cable_len,
+        horizontalalignment="center",
+        verticalalignment="top")
+    fig.tight_layout()
+    plt.show()
 
 def get_all_src_status():
     get_src_controllers()
@@ -87,17 +120,23 @@ def add_fms_sensor(sensor_name=None, client=None):
     eth_dist_last = None
     if sensor_name == None:
         sensor_name = te.get_str("Enter sensor name\n")
+        print(sensor_name)
     sensor_type = te.get_list_str(["Beckhoff", "Raritan"], "Enter sensor type Beckhoff/Raritan\n")
+    print(sensor_type)
 
     if sensor_type == "Raritan":
         parent_switch = te.get_str("Enter a valid Parent SRC Controller happi name:\n")
+        print(parent_switch)
         #validate input here
         root_sensor_port = te.get_str("Enter port number if first sensor or leave blank if not")
+        print(f"roote sensor port is: {root_sensor_port}")
         last_connection_name = te.get_str("Enter the happi name of the last sensor this one is attached to\n")
+        print(f"last conn {last_connection_name}")
         #validate input here
         eth_dist_last = te.get_int("Enter Eth Distance from last sensor\n")
+        print(eth_dist_last)
         container_type = FMSRaritanItem
-        if root_sensor_port == "" or root_sensor_port == None and last_connection_name == "" or last_connection_name == None:
+        if (root_sensor_port == "" or root_sensor_port == None) and (last_connection_name == "" or last_connection_name == None):
             raise(EnforceError("must define root_sensor port or last connection"))
     else:
         container_type = FMSBeckhoffItem
@@ -138,6 +177,12 @@ def SetupOptionParser():
                     action='store_true',
                     dest='check_topology',
                     help='print the current FMS topology')
+    parser.add_option('-s','--src',
+                    dest='src_controller',
+                    help='src controller')
+    parser.add_option('-p','--port',
+                    dest='port',
+                    help='src controller port')
     parser.add_option('--list_all_sensors',
                     action='store_true',
                     help="print a list of sensors")
@@ -155,7 +200,6 @@ def SetupOptionParser():
 def main(argv):
     options_parser = SetupOptionParser()
     (options, args) = options_parser.parse_args()
-
     if options.add_sensor:
         add_fms_sensor(options.add_sensor)
     elif options.add_src_controller:
@@ -165,7 +209,7 @@ def main(argv):
     elif options.validate:
         validate() 
     elif options.check_topology:
-        check_topology(args[0], args[1])
+        check_topology(options.src_controller, options.port)
     elif options.delete_sensor:
         delete_sensor(args[0])
     else:

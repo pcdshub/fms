@@ -1,4 +1,30 @@
 {
+    "hmd1": {
+        "_id": "hmd1",
+        "active": true,
+        "args": [
+            "{{prefix}}"
+        ],
+        "bottom_alarm": null,
+        "creation": "Tue Oct 29 13:34:27 2024",
+        "device_class": null,
+        "documentation": null,
+        "eth_dist_last": 11,
+        "high_alarm": null,
+        "kwargs": {
+            "name": "{{name}}"
+        },
+        "last_connection_name": "temp3",
+        "last_edit": "Tue Oct 29 13:34:27 2024",
+        "location": null,
+        "low_alarm": null,
+        "moderate_alarm": null,
+        "name": "hmd1",
+        "parent_switch": "src_mec_01",
+        "prefix": "RTD:TEST:FMS",
+        "root_sensor_port": "0",
+        "type": "fms.happi.containers.FMSRaritanItem"
+    },
     "src_mec_01": {
         "_id": "src_mec_01",
         "active": true,
@@ -11,9 +37,9 @@
         "kwargs": {
             "name": "{{name}}"
         },
-        "last_edit": "Mon Oct 28 17:07:45 2024",
+        "last_edit": "Tue Oct 29 13:34:27 2024",
         "name": "src_mec_01",
-        "port0": "[[\"temp1\", 43], [\"temp2\", 34], [\"temp3\", 23]]",
+        "port0": "[[\"temp1\", 0], [\"temp2\", 34], [\"temp3\", 23], [\"hmd1\", 11]]",
         "port1": null,
         "port2": null,
         "port3": null,
