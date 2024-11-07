@@ -1,4 +1,4 @@
-import sys, optparse, json, networkx as nx
+import sys, optparse,argparse, json, networkx as nx
 import matplotlib.pyplot as plt
 from .utils import TypeEnforcer as te
 from happi import Client
@@ -156,50 +156,53 @@ def add_fms_sensor(sensor_name=None, client=None):
         ret = add_sensor_to_src(item, client)
     item.save()
 
-def SetupOptionParser():
-    parser = optparse.OptionParser(usage=__doc__)
-    parser.add_option('--validate',
+def SetupArgumentParser():
+    parser = argparse.ArgumentParser(
+                        prog="fms",
+                        description='A module for managing facillity monitoring devices',
+                        epilog='Thank you for using the fms CLI!')
+    parser.add_argument('--validate',
                     action='store_true',
                     dest="validate",
                     help='validate database')
-    parser.add_option('--src_status',
+    parser.add_argument('--src_status',
                     action='store_true',
                     dest="src_status",
                     help='get src config status')
-    parser.add_option('--add_sensor',
+    parser.add_argument('--add_sensor',
                     dest="add_sensor",
                     help='walk through adding a sensor to FMS')
-    parser.add_option('--add_src_controller',
+    parser.add_argument('--add_src_controller',
                     action='store_true',
                     dest="add_src_controller",
                     help='walk through adding a raritan SRC controller to FMS')
-    parser.add_option('--check_topology',
+    parser.add_argument('--check_topology',
                     action='store_true',
                     dest='check_topology',
                     help='print the current FMS topology')
-    parser.add_option('-s','--src',
+    parser.add_argument('-s','--src',
                     dest='src_controller',
                     help='src controller')
-    parser.add_option('-p','--port',
+    parser.add_argument('-p','--port',
                     dest='port',
                     help='src controller port')
-    parser.add_option('--list_all_sensors',
+    parser.add_argument('--list_all_sensors',
                     action='store_true',
                     help="print a list of sensors")
-    parser.add_option('--print_active_alarms',
+    parser.add_argument('--print_active_alarms',
                     action='store_true',
                     help="prints a list of all alarms")
-    parser.add_option('--launch_nalms',
+    parser.add_argument('--launch_nalms',
                     action='store_true',
                     help="launch the nalms home screen")
-    parser.add_option('--delete_sensor',
+    parser.add_argument('--delete_sensor',
                     action='store_true',
                     help="launch the nalms home screen")
     return parser
 
 def main(argv):
-    options_parser = SetupOptionParser()
-    (options, args) = options_parser.parse_args()
+    argument_parser = SetupArgumentParser()
+    options = argument_parser.parse_args()
     if options.add_sensor:
         add_fms_sensor(options.add_sensor)
     elif options.add_src_controller:
@@ -213,6 +216,6 @@ def main(argv):
     elif options.delete_sensor:
         delete_sensor(args[0])
     else:
-        options_parser.print_help()
+        argument_parser.print_help()
 
 main(sys.argv)

@@ -1,30 +1,4 @@
 {
-    "hmd1": {
-        "_id": "hmd1",
-        "active": true,
-        "args": [
-            "{{prefix}}"
-        ],
-        "bottom_alarm": null,
-        "creation": "Tue Oct 29 13:34:27 2024",
-        "device_class": null,
-        "documentation": null,
-        "eth_dist_last": 11,
-        "high_alarm": null,
-        "kwargs": {
-            "name": "{{name}}"
-        },
-        "last_connection_name": "temp3",
-        "last_edit": "Tue Oct 29 13:34:27 2024",
-        "location": null,
-        "low_alarm": null,
-        "moderate_alarm": null,
-        "name": "hmd1",
-        "parent_switch": "src_mec_01",
-        "prefix": "RTD:TEST:FMS",
-        "root_sensor_port": "0",
-        "type": "fms.happi.containers.FMSRaritanItem"
-    },
     "src_mec_01": {
         "_id": "src_mec_01",
         "active": true,
@@ -37,9 +11,9 @@
         "kwargs": {
             "name": "{{name}}"
         },
-        "last_edit": "Tue Oct 29 13:34:27 2024",
+        "last_edit": "Mon Nov  4 14:09:30 2024",
         "name": "src_mec_01",
-        "port0": "[[\"temp1\", 0], [\"temp2\", 34], [\"temp3\", 23], [\"hmd1\", 11]]",
+        "port0": "[[\"temp1\", 32], [\"temp2\", 23], [\"temp3\", 15]]",
         "port1": null,
         "port2": null,
         "port3": null,
@@ -57,16 +31,16 @@
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Mon Oct 28 14:47:41 2024",
+        "creation": "Mon Nov  4 13:19:40 2024",
         "device_class": null,
         "documentation": null,
-        "eth_dist_last": 43,
+        "eth_dist_last": 32,
         "high_alarm": null,
         "kwargs": {
             "name": "{{name}}"
         },
-        "last_connection": null,
-        "last_edit": "Mon Oct 28 14:47:41 2024",
+        "last_connection_name": null,
+        "last_edit": "Mon Nov  4 13:19:40 2024",
         "location": null,
         "low_alarm": null,
         "moderate_alarm": null,
@@ -83,16 +57,16 @@
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Mon Oct 28 16:23:30 2024",
+        "creation": "Mon Nov  4 13:21:11 2024",
         "device_class": null,
         "documentation": null,
-        "eth_dist_last": 34,
+        "eth_dist_last": 23,
         "high_alarm": null,
         "kwargs": {
             "name": "{{name}}"
         },
         "last_connection_name": "temp1",
-        "last_edit": "Mon Oct 28 16:23:30 2024",
+        "last_edit": "Mon Nov  4 13:21:11 2024",
         "location": null,
         "low_alarm": null,
         "moderate_alarm": null,
@@ -109,16 +83,16 @@
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Mon Oct 28 17:07:45 2024",
+        "creation": "Mon Nov  4 14:09:30 2024",
         "device_class": null,
         "documentation": null,
-        "eth_dist_last": 23,
+        "eth_dist_last": 15,
         "high_alarm": null,
         "kwargs": {
             "name": "{{name}}"
         },
         "last_connection_name": "temp2",
-        "last_edit": "Mon Oct 28 17:07:45 2024",
+        "last_edit": "Mon Nov  4 14:09:30 2024",
         "location": null,
         "low_alarm": null,
         "moderate_alarm": null,
