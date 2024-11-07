@@ -1,4 +1,4 @@
-import sys, optparse,argparse, json, networkx as nx
+import sys, argparse, json, networkx as nx
 import matplotlib.pyplot as plt
 from .utils import TypeEnforcer as te
 from happi import Client
