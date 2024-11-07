@@ -72,3 +72,4 @@ def test_FMSRaritanItem(clean_files):
                 bottom_alarm=1)
 
         item.save()
+        print('hello')
