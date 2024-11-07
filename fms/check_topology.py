@@ -1,7 +1,7 @@
 
 from happi import Client
 import matplotlib.pyplot as plt
-import networkx as nx, json
+import networkx as nx 
 
 fms_happi_database = "fms_test.json"
 
@@ -10,11 +10,10 @@ def check_topology(src_controller, port, client=None):
         client = Client(path=fms_happi_database)
     
     src_controller = client.find_item(name=src_controller)
-    sensor_list_data = getattr(src_controller, "port" + str(port))
-    if sensor_list_data == None:
+    curr_sensor_list = getattr(src_controller, "port" + str(port))
+    if curr_sensor_list == None:
         print("No sensors installed on this port")
         return
-    curr_sensor_list = json.loads(sensor_list_data)
     edges = []
     edge_labels = {}
     node_labels = {}

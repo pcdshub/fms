@@ -4,14 +4,14 @@ from happi.errors import EnforceError
 from typing import List
 
 class FMSSRCItem(OphydItem):
-    port0 = EntryInfo("An ordered list of sensors on port 0", enforce=str)
-    port1 = EntryInfo("An ordered list of sensors on port 1", enforce=str)
-    port2 = EntryInfo("An ordered list of sensors on port 2", enforce=str)
-    port3 = EntryInfo("An ordered list of sensors on port 3", enforce=str)
-    port4 = EntryInfo("An ordered list of sensors on port 4", enforce=str)
-    port5 = EntryInfo("An ordered list of sensors on port 5", enforce=str)
-    port6 = EntryInfo("An ordered list of sensors on port 6", enforce=str)
-    port7 = EntryInfo("An ordered list of sensors on port 7", enforce=str)
+    port0 = EntryInfo("An ordered list of sensors on port 0", enforce=list)
+    port1 = EntryInfo("An ordered list of sensors on port 1", enforce=list)
+    port2 = EntryInfo("An ordered list of sensors on port 2", enforce=list)
+    port3 = EntryInfo("An ordered list of sensors on port 3", enforce=list)
+    port4 = EntryInfo("An ordered list of sensors on port 4", enforce=list)
+    port5 = EntryInfo("An ordered list of sensors on port 5", enforce=list)
+    port6 = EntryInfo("An ordered list of sensors on port 6", enforce=list)
+    port7 = EntryInfo("An ordered list of sensors on port 7", enforce=list)
 
 class FMSItem(OphydItem):
     high_alarm = EntryInfo("latching emergency alarm", enforce=int)

@@ -1,4 +1,4 @@
-import sys, argparse, json
+import sys, argparse
 from happi import Client
 from .utils import TypeEnforcer as te
 from happi.item import OphydItem
@@ -6,6 +6,7 @@ from happi.errors import EnforceError
 from .happi.containers import FMSRaritanItem, FMSBeckhoffItem, FMSSRCItem
 from typing import List
 from .check_topology import check_topology
+
 
 fms_happi_database = "fms_test.json"
 
@@ -62,14 +63,13 @@ def add_sensor_to_src(item, client=None):
         item.root_sensor_port = port
 
         port = "port" + str(port)
-        raw_data = getattr(src_controller, port)                
-        curr_sensor_list = json.loads(raw_data)
+        curr_sensor_list = getattr(src_controller, port)                
         print(f'Current List: {curr_sensor_list}')
 
     curr_sensor_list.append((item.name, item.eth_dist_last))
     print(f'Updated List: {curr_sensor_list}')
 
-    setattr(src_controller, port, json.dumps(curr_sensor_list))
+    setattr(src_controller, port, curr_sensor_list)
     src_controller.save()
 
 def add_fms_sensor(sensor_name=None, client=None):
