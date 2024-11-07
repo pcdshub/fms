@@ -1,5 +1,7 @@
 from typing import List
 
+max_retry = 3
+
 class TypeEnforcer:
     def get_bool(prompt: str) -> bool:
         while True:
@@ -20,18 +22,30 @@ class TypeEnforcer:
                 print("invalid, input int")
 
     def get_str(prompt: str) -> str:
+        curr_retries = 0
         while True:
-            try:
-                value = str(input(prompt))
+            value = input(prompt)
+            if value == "":
+                return None
+            if type(value) == str:
                 return value
-            except ValueError:
+            else:
                 print("invalid, input string")
+                curr_retries += 1
+                if curr_retries >= max_retry:
+                    raise ValueError("Input a string")
+
     def get_list_str(values: List[str], prompt: str) -> str:
+        curr_retries = 0
         while True:
-            try:
-                value = str(input(prompt))
-                if value not in values:
-                    raise(ValueError())
-                return value
-            except ValueError:
+            value = input(prompt)
+            if type(value) != str:
+                curr_retries += 1
                 print("invalid, Beckhoff or Raritan")
+                continue
+            elif value in values:
+                return value
+            else:
+                curr_retries += 1
+                if curr_retries >= max_retry:
+                    raise ValueError("Input Beckoff or Raritan")
