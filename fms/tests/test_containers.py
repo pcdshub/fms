@@ -134,12 +134,12 @@ def test_FMSSRCItem(clean_files, sensors):
             moderate_alarm=1,
             low_alarm=1,
             bottom_alarm=1,
-            port0=json.dumps(sensors))
+            port0=sensors)
 
     item.save()
     assert_valid(client)
 
     item = client.find_item(name="test1")
-    sensors = json.loads(item.port0)
+    sensors = item.port0
     assert(type(sensors) == list)
     assert(sensors[0][0] == "temp1")

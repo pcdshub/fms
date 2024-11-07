@@ -34,18 +34,17 @@ def test_add_src(clean_files):
     distance = 1
     client, sensor = clean_files
     assert(sensor[0][sensor_name] == "temp1") 
-    sensor_to_add = json.dumps(sensor)
 
     item = client.create_item(item_cls=FMSSRCItem,
             name="test_src",
             prefix="TEST:SRC:PV",
-            port0=sensor_to_add)
+            port0=sensor)
 
     item.save()
     assert_valid(client)
 
     item = client.find_item(name="test_src")
-    child_list = json.loads(item.port0)
+    child_list = item.port0
     assert(sensor[0][sensor_name] == "temp1") 
     assert(sensor[1][sensor_name] == "temp2") 
 
