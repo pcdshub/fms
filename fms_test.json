@@ -11,16 +11,16 @@
         "kwargs": {
             "name": "{{name}}"
         },
-        "last_edit": "Thu Nov  7 10:28:59 2024",
+        "last_edit": "Fri Nov  8 11:16:47 2024",
         "name": "src_mec_01",
         "port0": [
             [
                 "temp1",
-                5
+                43
             ],
             [
                 "temp2",
-                10
+                43
             ]
         ],
         "port1": null,
@@ -36,52 +36,54 @@
     "temp1": {
         "_id": "temp1",
         "active": true,
+        "alert_rule_id": null,
         "args": [
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Thu Nov  7 10:24:54 2024",
+        "creation": "Fri Nov  8 11:16:17 2024",
         "device_class": null,
         "documentation": null,
-        "eth_dist_last": 5,
+        "eth_dist_last": 43,
         "high_alarm": null,
         "kwargs": {
             "name": "{{name}}"
         },
         "last_connection_name": null,
-        "last_edit": "Thu Nov  7 10:24:54 2024",
+        "last_edit": "Fri Nov  8 11:16:17 2024",
         "location": null,
         "low_alarm": null,
         "moderate_alarm": null,
         "name": "temp1",
         "parent_switch": "src_mec_01",
-        "prefix": "RTD:TEST:FMS",
+        "prefix": "TEST:PV",
         "root_sensor_port": "0",
         "type": "fms.happi.containers.FMSRaritanItem"
     },
     "temp2": {
         "_id": "temp2",
         "active": true,
+        "alert_rule_id": null,
         "args": [
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Thu Nov  7 10:28:59 2024",
+        "creation": "Fri Nov  8 11:16:47 2024",
         "device_class": null,
         "documentation": null,
-        "eth_dist_last": 10,
+        "eth_dist_last": 43,
         "high_alarm": null,
         "kwargs": {
             "name": "{{name}}"
         },
         "last_connection_name": "temp1",
-        "last_edit": "Thu Nov  7 10:28:59 2024",
+        "last_edit": "Fri Nov  8 11:16:47 2024",
         "location": null,
         "low_alarm": null,
         "moderate_alarm": null,
         "name": "temp2",
         "parent_switch": "src_mec_01",
-        "prefix": "RTD:TEST:FMS",
+        "prefix": "2",
         "root_sensor_port": "0",
         "type": "fms.happi.containers.FMSRaritanItem"
     }

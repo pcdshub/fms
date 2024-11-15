@@ -1,0 +1,281 @@
+{
+    "id": 481,
+    "uid": "cdhky4eb8ny0wb",
+    "orgID": 1,
+    "folderUID": "FRogdAwGz",
+    "ruleGroup": "XRT Racks",
+    "title": "XRT Racks Summary",
+    "condition": "C",
+    "data": [
+        {
+            "refId": "R05",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "000000002",
+            "model": {
+                "alias": "",
+                "aliasPattern": "",
+                "datasource": {
+                    "type": "sasaki77-archiverappliance-datasource",
+                    "uid": "000000002"
+                },
+                "functions": [],
+                "intervalMs": 1000,
+                "live": false,
+                "maxDataPoints": 43200,
+                "operator": "",
+                "refId": "R05",
+                "regex": false,
+                "stream": false,
+                "strmCap": "",
+                "strmInt": "",
+                "target": "XRT:R05:RTD"
+            }
+        },
+        {
+            "refId": "R02",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "000000002",
+            "model": {
+                "alias": "",
+                "aliasPattern": "",
+                "datasource": {
+                    "type": "sasaki77-archiverappliance-datasource",
+                    "uid": "000000002"
+                },
+                "functions": [],
+                "hide": false,
+                "intervalMs": 1000,
+                "live": false,
+                "maxDataPoints": 43200,
+                "operator": "",
+                "refId": "R02",
+                "regex": false,
+                "stream": false,
+                "strmCap": "",
+                "strmInt": "",
+                "target": "XRT:R02:RTD"
+            }
+        },
+        {
+            "refId": "R04",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "000000002",
+            "model": {
+                "alias": "",
+                "aliasPattern": "",
+                "datasource": {
+                    "type": "sasaki77-archiverappliance-datasource",
+                    "uid": "000000002"
+                },
+                "functions": [],
+                "hide": false,
+                "intervalMs": 1000,
+                "live": false,
+                "maxDataPoints": 43200,
+                "operator": "",
+                "refId": "R04",
+                "regex": false,
+                "stream": false,
+                "strmCap": "",
+                "strmInt": "",
+                "target": "XRT:R04:RTD"
+            }
+        },
+        {
+            "refId": "B",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "__expr__",
+            "model": {
+                "conditions": [
+                    {
+                        "evaluator": {
+                            "params": [],
+                            "type": "gt"
+                        },
+                        "operator": {
+                            "type": "and"
+                        },
+                        "query": {
+                            "params": [
+                                "B"
+                            ]
+                        },
+                        "reducer": {
+                            "params": [],
+                            "type": "last"
+                        },
+                        "type": "query"
+                    }
+                ],
+                "datasource": {
+                    "type": "__expr__",
+                    "uid": "__expr__"
+                },
+                "expression": "R05",
+                "intervalMs": 1000,
+                "maxDataPoints": 43200,
+                "reducer": "last",
+                "refId": "B",
+                "type": "reduce"
+            }
+        },
+        {
+            "refId": "A",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "__expr__",
+            "model": {
+                "conditions": [
+                    {
+                        "evaluator": {
+                            "params": [
+                                0,
+                                0
+                            ],
+                            "type": "gt"
+                        },
+                        "operator": {
+                            "type": "and"
+                        },
+                        "query": {
+                            "params": []
+                        },
+                        "reducer": {
+                            "params": [],
+                            "type": "avg"
+                        },
+                        "type": "query"
+                    }
+                ],
+                "datasource": {
+                    "name": "Expression",
+                    "type": "__expr__",
+                    "uid": "__expr__"
+                },
+                "expression": "R02",
+                "hide": false,
+                "intervalMs": 1000,
+                "maxDataPoints": 43200,
+                "reducer": "last",
+                "refId": "A",
+                "type": "reduce"
+            }
+        },
+        {
+            "refId": "C",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "__expr__",
+            "model": {
+                "conditions": [
+                    {
+                        "evaluator": {
+                            "params": [
+                                0,
+                                0
+                            ],
+                            "type": "gt"
+                        },
+                        "operator": {
+                            "type": "and"
+                        },
+                        "query": {
+                            "params": []
+                        },
+                        "reducer": {
+                            "params": [],
+                            "type": "avg"
+                        },
+                        "type": "query"
+                    }
+                ],
+                "datasource": {
+                    "name": "Expression",
+                    "type": "__expr__",
+                    "uid": "__expr__"
+                },
+                "expression": "$B \u003e 30 || $A \u003e 30 || $D \u003e 30",
+                "hide": false,
+                "intervalMs": 1000,
+                "maxDataPoints": 43200,
+                "refId": "C",
+                "type": "math"
+            }
+        },
+        {
+            "refId": "D",
+            "queryType": "",
+            "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+            },
+            "datasourceUid": "__expr__",
+            "model": {
+                "conditions": [
+                    {
+                        "evaluator": {
+                            "params": [
+                                0,
+                                0
+                            ],
+                            "type": "gt"
+                        },
+                        "operator": {
+                            "type": "and"
+                        },
+                        "query": {
+                            "params": []
+                        },
+                        "reducer": {
+                            "params": [],
+                            "type": "avg"
+                        },
+                        "type": "query"
+                    }
+                ],
+                "datasource": {
+                    "name": "Expression",
+                    "type": "__expr__",
+                    "uid": "__expr__"
+                },
+                "expression": "R04",
+                "hide": false,
+                "intervalMs": 1000,
+                "maxDataPoints": 43200,
+                "reducer": "last",
+                "refId": "D",
+                "type": "reduce"
+            }
+        }
+    ],
+    "updated": "2024-04-11T15:33:09-07:00",
+    "noDataState": "NoData",
+    "execErrState": "Error",
+    "for": "1m",
+    "provenance": "api",
+    "isPaused": false,
+    "notification_settings": null,
+    "record": null
+}

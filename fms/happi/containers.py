@@ -1,7 +1,6 @@
 import re
 from happi.item import EntryInfo, HappiItem, OphydItem
 from happi.errors import EnforceError
-from typing import List
 
 class FMSSRCItem(OphydItem):
     port0 = EntryInfo("An ordered list of sensors on port 0", enforce=list)
@@ -20,10 +19,9 @@ class FMSItem(OphydItem):
     bottom_alarm = EntryInfo("latching low emergency alarm", enforce=int)
 
     location = EntryInfo("wheres the device installed")
+    alert_rule_id = EntryInfo("the alert rule linked to this item in grafana", default=None)
 
 class FMSRaritanItem(FMSItem):
-
-
     def less_than_100(val):
         if int(val) <= 100:
             return val 

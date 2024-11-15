@@ -21,8 +21,6 @@ def sensors():
     sensors = [("temp1", "3"), ("temp2","4")]
     yield sensors
 
-
-
 def test_OphydItem(clean_files):
     client = Client(path=test_file) 
 
