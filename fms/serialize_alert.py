@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 from typing import Optional, Dict, List
-from apischema import deserialize, alias, serialize
 import json
 from datetime import datetime
 
