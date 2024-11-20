@@ -7,59 +7,29 @@ from .happi.containers import FMSRaritanItem, FMSBeckhoffItem, FMSSRCItem
 from typing import List
 from .check_topology import check_topology
 from .grafana import fetch_alert, create_alert_rule, delete_alert_rule
-from .serialize_alert import ProvisionedAlertRule, AlertQuery, Model, Evaluator, Operator, Reducer, Query, RelativeTimeRange
+from .serialize_alert import ProvisionedAlertRule
 from apischema import serialize
+from .create_alert import alert_creater
 
 fms_happi_database = "fms_test.json"
 
 def create_alert():
-    query_model = Model(
-        alias_="test1",
-        refId="A",
-        target="MR1K1:BEND:MMS:XUP.RBV") 
-
-    alert_query = AlertQuery(model=query_model, refId="A")
-
-    classic_model = Model(
-        alias_="test2",
-        refId='B',
-        conditions=[dict(evaluator=Evaluator(params=[38]),
-            operator=Operator(),
-            query=Query(params=["A"]),
-            reducer=Reducer())],
-        type_="classic_conditions") 
-
-    classic_query = AlertQuery(
-        model=classic_model,
-        refId="B",
-        datasourceUid="-100",
-        relativeTimeRange=RelativeTimeRange(from_=0,to=0))
-
-    alert = ProvisionedAlertRule(
-        title="Temperature Raritan MEC",
-        ruleGroup="XRT Racks",
-        folderUID="FRogdAwGz",
-        data=[alert_query, classic_query])
-
-    #with open("test_serial_10.json", "w") as f:
-        #f.write(json.dumps(serialize(GrafanaAlert, alert)))
-
-    create_alert_rule(json.dumps(serialize(ProvisionedAlertRule, alert)))
-
-    #this works
-    #with open("test_serial_10.json", "r") as f:
-    #    create_alert_rule(f.read())
+    alert_creater()
 
 def delete_alert(alert_uid):
     delete_alert_rule(alert_uid)
-    
 
 def get_alert(alert_uid):
     alert = fetch_alert(alert_uid)
 
-    print(f"writing alert to file: {alert}")
-    with open("sample_alert.txt", "w") as f:
-        f.write(alert)
+    alert_rule = ProvisionedAlertRule.parse_raw(alert)
+    #print(alert_rule)
+    print(alert_rule.condition)
+    for query in alert_rule.data:
+        print(f"*********************{query}*******************")
+    #print(f"writing alert to file: {alert}")
+    #with open("sample_alert.json", "w") as f:
+    #    f.write(alert)
 
 
 def find_port(name, client=None):
