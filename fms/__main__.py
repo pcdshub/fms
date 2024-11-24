@@ -6,27 +6,58 @@ from happi.errors import EnforceError
 from .happi.containers import FMSRaritanItem, FMSBeckhoffItem, FMSSRCItem
 from typing import List
 from .check_topology import check_topology
-from .grafana import fetch_alert, create_alert_rule, delete_alert_rule
-from .serialize_alert import ProvisionedAlertRule
+from .grafana import fetch_alert, create_alert_rule, delete_alert_rule, fetch_alert_group, update_alert_rule
+from .serialize_alert import ProvisionedAlertRule, AlertGroup
 from apischema import serialize
-from .create_alert import alert_creater
+from .create_alert import AlertCreater
 
 fms_happi_database = "fms_test.json"
 
-def create_alert():
-    alert_creater()
+def create_alert(value, title, folder_name, rule_group, polarity, pv, happi_name):
+    ac = AlertCreater()
+    if polarity == None:
+        ac.create_alert(
+            value,
+            alert_title=title,
+            folder_name=folder_name,
+            rule_group=rule_group,
+            pv=pv,
+            happi_name=happi_name)
+    else:
+        ac.create_alert("A new alert test")
 
 def delete_alert(alert_uid):
     delete_alert_rule(alert_uid)
 
+def update_alert(alert_uid):
+    alert = fetch_alert(alert_uid)
+    alert_rule = ProvisionedAlertRule.parse_raw(alert)
+
+    #alert_rule.title = alert_rule.title + "TEST"
+    alert_rule.for_ = "2m"
+    #alert_rule.labels = dict(subsystem="fmsv2")
+
+    update_alert_rule(alert_uid, json.dumps(alert_rule.dict(by_alias=True)))
+
+def get_alert_group(folder_uid, group):
+    #print(group)
+    alert_group = fetch_alert_group(folder_uid, group) 
+    #print(alert_group)
+    alert = AlertGroup.parse_obj(alert_group)
+    print(alert) 
+
 def get_alert(alert_uid):
     alert = fetch_alert(alert_uid)
-
     alert_rule = ProvisionedAlertRule.parse_raw(alert)
     #print(alert_rule)
-    print(alert_rule.condition)
+    print(f'******* the rule:{alert_rule}')
     for query in alert_rule.data:
-        print(f"*********************{query}*******************")
+        print(f"------------{query}------------\n")
+
+        #print(f"query ID: {query.refId}")
+        #print(f"*********************{query.model.conditions}*******************")
+        #print(f"model type: {query.model.type_}")
+        #print(f"model functions: {query.model.functions}")
     #print(f"writing alert to file: {alert}")
     #with open("sample_alert.json", "w") as f:
     #    f.write(alert)
@@ -57,7 +88,12 @@ def delete_sensor(sensor_name, client=None):
 
 def validate():
     client = Client(path=fms_happi_database)
-    print(type(client.validate()))
+    results = client.validate()
+    if len(results) == 0:
+        print("Success! Valid FMS Database.")
+    else:
+        print(f'This devices are malformed! {results}')
+
 
 def get_all_src_status():
     get_src_controllers()
@@ -153,67 +189,42 @@ def SetupArgumentParser():
                         prog="fms",
                         description='A module for managing facillity monitoring devices',
                         epilog='Thank you for using the fms CLI!')
-    parser.add_argument('--validate',
-                    action='store_true',
-                    dest="validate",
-                    help='validate database')
-    parser.add_argument('--src_status',
-                    action='store_true',
-                    dest="src_status",
-                    help='get src config status')
-    parser.add_argument('--add_sensor',
-                    dest="add_sensor",
-                    help='walk through adding a sensor to FMS')
-    parser.add_argument('--add_src_controller',
-                    action='store_true',
-                    dest="add_src_controller",
-                    help='walk through adding a raritan SRC controller to FMS')
-    parser.add_argument('--check_topology',
-                    action='store_true',
-                    dest='check_topology',
-                    help='print the current FMS topology')
-    parser.add_argument('-s','--src',
-                    dest='src_controller',
-                    help='src controller')
-    parser.add_argument('-p','--port',
-                    dest='port',
-                    help='src controller port')
-    parser.add_argument('-a','--aid',
-                    dest='alert_id',
-                    help='alert uid')
-    parser.add_argument('--list_all_sensors',
-                    action='store_true',
-                    help="print a list of sensors")
-    parser.add_argument('--print_active_alarms',
-                    action='store_true',
-                    help="prints a list of all alarms")
-    parser.add_argument('--launch_nalms',
-                    action='store_true',
-                    help="launch the nalms home screen")
-    parser.add_argument('--delete_sensor',
-                    dest='delete_sensor',
-                    help="delete_sensor")
-    parser.add_argument('--get_alert',
-                    action='store_true',
-                    help='alert rule id to GET')
-    parser.add_argument('--create_alert',
-                    action='store_true',
-                    help='create alert rule')
-    parser.add_argument('--delete_alert',
-                    action='store_true',
-                    help='delete alert rule')
+    parser.add_argument('--validate', action='store_true', dest="validate", help='validate database')
+    parser.add_argument('--add_sensor', dest="add_sensor", help='walk through adding a sensor to FMS')
+    parser.add_argument('--add_src_controller', action='store_true', dest="add_src_controller", help='walk through adding a raritan SRC controller to FMS')
+    parser.add_argument('-s','--src', dest='src_controller', help='src controller')
+    parser.add_argument('-p','--port', dest='port', help='src controller port')
+
+    parser.add_argument('--list_all_sensors', action='store_true', help="print a list of sensors")
+    parser.add_argument('--check_topology', action='store_true', dest='check_topology', help='print the current FMS topology')
+    parser.add_argument('--launch_nalms', action='store_true',help="launch the nalms home screen")
+    parser.add_argument('--delete_sensor', dest='delete_sensor', help="delete_sensor")
+    
+    parser.add_argument('-t','--alert_title', dest='alert_title', help='name of alert rule')
+    parser.add_argument('-f','--folder', dest='folder_name', help='grafana alert folder name')
+    parser.add_argument('-r','--rule_g', dest='rule_group', help='name of alert rule group')
+    parser.add_argument('-v','--thresh', dest='thresh_value', help='alert trip point')
+    parser.add_argument('-pl','--polarity', dest='polarity', help='alert high or low', choices=["gt", "lt"], default=None)
+    parser.add_argument('-pv','--pv', dest='prefix', help='epics PV', default=None)
+    parser.add_argument('-hn','--happi_name', dest='happi_name', help='happie database name', default=None)
+
+
+    parser.add_argument('--get_alert', action='store_true', help='alert rule id to GET')
+    parser.add_argument('--get_alert_group', action='store_true', help='alert rule group')
+    parser.add_argument('--update_alert', action='store_true', help='alert rule group')
+    parser.add_argument('-a','--aid', dest='alert_id', help='alert uid')
+
+    parser.add_argument('--create_alert', action='store_true', help='create alert rule')
+    parser.add_argument('--delete_alert', action='store_true', help='delete alert rule')
     return parser
 
 def main(argv):
     argument_parser = SetupArgumentParser()
     options = argument_parser.parse_args()
-    print(options)
     if options.add_sensor:
         add_fms_sensor(options.add_sensor)
     elif options.add_src_controller:
         add_src_controller()
-    elif options.src_status:
-        get_all_src_status() 
     elif options.validate:
         validate() 
     elif options.check_topology:
@@ -223,10 +234,24 @@ def main(argv):
     elif options.get_alert:
         get_alert(options.alert_id)
     elif options.create_alert:
-        create_alert() 
+        create_alert(
+            options.thresh_value,
+            options.alert_title,
+            options.folder_name,
+            options.rule_group,
+            options.polarity,
+            options.prefix,
+            options.happi_name
+        ) 
     elif options.delete_alert:
         delete_alert(options.alert_id) 
+    elif options.get_alert_group:
+        get_alert_group(options.folder_name, options.rule_group) 
+    elif options.update_alert:
+        update_alert(options.alert_id) 
     else:
         argument_parser.print_help()
 
 main(sys.argv)
+
+#python -m fms --create_alert -t flood11 -f xrt -r xrt_pcw -v 0 -pv MR1K1:BEND:MMS:XUP.RBV

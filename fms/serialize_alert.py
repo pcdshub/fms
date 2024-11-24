@@ -61,6 +61,7 @@ class Model(BaseModel):
 
 class AlertQuery(BaseModel):
     datasourceUid : Optional[str] = "000000002"
+    datasource: Optional[dict] = Field(default_factory=dict)
     model : Optional[Model] = Field(default=Model())
     queryType: Optional[str] = ""
     refId: Optional[str] = ""
@@ -68,7 +69,7 @@ class AlertQuery(BaseModel):
 
 class ProvisionedAlertRule(BaseModel):
     annotations: Optional[Dict[str, str]] = Field(default_factory=dict) 
-    condition: str = "B"
+    condition: str = ""
     data: List[AlertQuery] = Field(default_factory=list)
     execErrState: str = "Alerting"
     folderUID: str = ""
@@ -88,3 +89,9 @@ class ProvisionedAlertRule(BaseModel):
 
     class Config:
         populate_by_name = True
+
+class AlertGroup(BaseModel):
+    title: str = ""
+    folderUid: str = ""
+    interval: int = 0
+    rules: Optional[List[ProvisionedAlertRule]] = []

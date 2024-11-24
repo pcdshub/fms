@@ -42,6 +42,8 @@ class FMSRaritanItem(FMSItem):
 
     last_connection_name = EntryInfo("Name of last connected sensor or leave blank for first", enforce=str)
 
+    num_sensors = EntryInfo(enforce=int)
+
 class FMSBeckhoffItem(FMSItem):
     ek9k_rail = EntryInfo("The EK9K connected to this sensor")
 

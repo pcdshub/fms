@@ -39,7 +39,7 @@ def fetch_alert(alert_uid, grafana_server_url=grafana_server_url):
     )   
     return response.text
 
-def update_alert_group(grafana_server_url, alert_uid, body):
+def update_alert_rule(alert_uid, body, grafana_server_url=grafana_server_url):
     headers = { 
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -51,6 +51,22 @@ def update_alert_group(grafana_server_url, alert_uid, body):
         data=body,
         verify=False
     )   
+    print(response)
+
+def fetch_alert_group(folder_uid, group, grafana_server_url=grafana_server_url):
+    print(folder_uid)
+    print(group)
+    headers = { 
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+    }   
+    response = requests.get(
+        grafana_server_url + "/api/v1/provisioning/folder/" + folder_uid + "/rule-groups/" + group,
+        headers=headers,
+        verify=False
+    )   
+    return response.json()
 
 def create_alert_rule(body, grafana_server_url=grafana_server_url):
     logging.basicConfig(level=logging.DEBUG)
@@ -65,8 +81,8 @@ def create_alert_rule(body, grafana_server_url=grafana_server_url):
         data=body,
         verify=False
     )   
-    print(response.json())
-    print(response.headers)
+    #print(response.json())
+    #print(response.headers)
 
 def delete_alert_rule(alert_id, grafana_server_url=grafana_server_url):
     logging.basicConfig(level=logging.DEBUG)
@@ -80,7 +96,7 @@ def delete_alert_rule(alert_id, grafana_server_url=grafana_server_url):
         headers=headers,
         verify=False
     )   
-    print(response.headers)
+    #print(response.headers)
 
 
 def fetch_dashboard(grafana_server_url, dash_uid, write_to_file=None):
