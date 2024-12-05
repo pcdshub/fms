@@ -5,6 +5,22 @@ from .utils import TypeEnforcer as te
 
 fms_happi_database = "fms_test.json"
 sensor_name = 0
+def update_captar(first_name, middle_item, last_name, client=None):
+    if client == None:
+        client = Client(path=fms_happi_database)
+    first_item = client.find_item(name=first_name)
+    last_item = client.find_item(name=last_name)
+
+    if middle_item.captar_out != last_item.captar_in:
+        last_item.captar_in = middle_item.captar_out
+        middle_item.captar_in = first_item.captar_out
+    else:
+        first_item.captar_out = middle_item.captar_in
+        middle_item.captar_out = last_item.captar_in
+    
+    middle_item.save()
+    last_item.save()
+    first_item.save()
 
 def find_port(name, client=None):
     if client == None:
@@ -35,7 +51,15 @@ def add_sensor_to_src(item, client=None):
             index += 1
 
     if found:
+        #installation in middle, update captar.
+        if index != len(curr_sensor_list) - 1:
+            print("im in the middle!!! ******")
+            print(f"Last={curr_sensor_list[index+1][sensor_name]} middle={item.name} last={curr_sensor_list[index][sensor_name]}")
+            update_captar(curr_sensor_list[index][sensor_name], item, curr_sensor_list[index+1][sensor_name])
+
         curr_sensor_list.insert(index + 1, (item.name, item.eth_dist_last, item.num_sensors))
+            
+
     else:
         curr_sensor_list.append((item.name, item.eth_dist_last, item.num_sensors))
     print(f'Updated List: {curr_sensor_list}')
@@ -60,7 +84,6 @@ def add_sensor(sensor_name, client):
             invalid = False
         except SearchError:
             ...
-    #validate input here
 
     root_sensor_port = te.get_str("Enter port number if first sensor or leave blank if not\n")
 
@@ -91,7 +114,10 @@ def add_sensor(sensor_name, client):
         root_sensor_port=root_sensor_port,
         eth_dist_last=eth_dist_last,
         last_connection_name=last_connection_name,
-        num_sensors=num_sensors
+        num_sensors=num_sensors,
+        captar_in=captar_in,
+        captar_out=captar_out,
+        location=sensor_location
     )
     add_sensor_to_src(item, client)
     item.save()

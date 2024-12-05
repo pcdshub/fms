@@ -1,17 +1,50 @@
 {
+    "hmd4": {
+        "_id": "hmd4",
+        "active": true,
+        "alert_rule_id": null,
+        "args": [
+            "{{prefix}}"
+        ],
+        "bottom_alarm": null,
+        "captar_in": "L234",
+        "captar_out": "L466",
+        "creation": "Thu Dec  5 10:50:54 2024",
+        "device_class": null,
+        "documentation": null,
+        "eth_dist_last": 3,
+        "high_alarm": null,
+        "kwargs": {
+            "name": "{{name}}"
+        },
+        "last_connection_name": "temp1",
+        "last_edit": "Thu Dec  5 10:50:54 2024",
+        "location": "R78",
+        "low_alarm": null,
+        "moderate_alarm": null,
+        "name": "hmd4",
+        "num_sensors": 1,
+        "parent_switch": "src_mec_01",
+        "prefix": "MEC:HMD:1",
+        "root_sensor_port": "0",
+        "type": "fms.happi.containers.FMSRaritanItem"
+    },
     "src_mec_01": {
         "_id": "src_mec_01",
         "active": true,
         "args": [
             "{{prefix}}"
         ],
-        "creation": "Mon Dec  2 16:42:21 2024",
+        "captar_in": null,
+        "captar_out": null,
+        "creation": "Thu Dec  5 10:01:31 2024",
         "device_class": null,
         "documentation": null,
         "kwargs": {
             "name": "{{name}}"
         },
-        "last_edit": "Mon Dec  2 17:21:33 2024",
+        "last_edit": "Thu Dec  5 10:50:54 2024",
+        "location": null,
         "name": "src_mec_01",
         "port0": [
             [
@@ -20,29 +53,24 @@
                 0
             ],
             [
-                "temp100",
-                10,
-                3
-            ],
-            [
-                "temp38",
-                10,
-                3
-            ],
-            [
                 "temp1",
                 10,
-                3
-            ],
-            [
-                "temp3",
-                52,
                 1
             ],
             [
-                "temp10",
-                34,
-                3
+                "hmd4",
+                3,
+                1
+            ],
+            [
+                "temp2",
+                3,
+                1
+            ],
+            [
+                "temp3",
+                10,
+                1
             ]
         ],
         "port1": [
@@ -105,7 +133,9 @@
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Mon Dec  2 16:42:53 2024",
+        "captar_in": "L234",
+        "captar_out": "L234",
+        "creation": "Thu Dec  5 10:05:58 2024",
         "device_class": null,
         "documentation": null,
         "eth_dist_last": 10,
@@ -114,70 +144,44 @@
             "name": "{{name}}"
         },
         "last_connection_name": null,
-        "last_edit": "Mon Dec  2 16:42:53 2024",
-        "location": null,
+        "last_edit": "Thu Dec  5 10:05:58 2024",
+        "location": "MEC:64A",
         "low_alarm": null,
         "moderate_alarm": null,
         "name": "temp1",
-        "num_sensors": 3,
+        "num_sensors": 1,
         "parent_switch": "src_mec_01",
-        "prefix": "afasf",
+        "prefix": "PV:TEST:01",
         "root_sensor_port": "0",
         "type": "fms.happi.containers.FMSRaritanItem"
     },
-    "temp10": {
-        "_id": "temp10",
+    "temp2": {
+        "_id": "temp2",
         "active": true,
         "alert_rule_id": null,
         "args": [
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Mon Dec  2 17:00:12 2024",
+        "captar_in": "L466",
+        "captar_out": "L466",
+        "creation": "Thu Dec  5 10:39:12 2024",
         "device_class": null,
         "documentation": null,
-        "eth_dist_last": 34,
+        "eth_dist_last": 3,
         "high_alarm": null,
         "kwargs": {
             "name": "{{name}}"
         },
         "last_connection_name": "temp1",
-        "last_edit": "Mon Dec  2 17:00:12 2024",
-        "location": null,
+        "last_edit": "Thu Dec  5 10:39:12 2024",
+        "location": "R67A",
         "low_alarm": null,
         "moderate_alarm": null,
-        "name": "temp10",
-        "num_sensors": 3,
+        "name": "temp2",
+        "num_sensors": 1,
         "parent_switch": "src_mec_01",
-        "prefix": "fadsfa:fsdfs",
-        "root_sensor_port": "0",
-        "type": "fms.happi.containers.FMSRaritanItem"
-    },
-    "temp100": {
-        "_id": "temp100",
-        "active": true,
-        "alert_rule_id": null,
-        "args": [
-            "{{prefix}}"
-        ],
-        "bottom_alarm": null,
-        "creation": "Mon Dec  2 17:10:20 2024",
-        "device_class": null,
-        "documentation": null,
-        "eth_dist_last": 10,
-        "high_alarm": null,
-        "kwargs": {
-            "name": "{{name}}"
-        },
-        "last_connection_name": "temp1",
-        "last_edit": "Mon Dec  2 17:10:20 2024",
-        "location": null,
-        "low_alarm": null,
-        "moderate_alarm": null,
-        "name": "temp100",
-        "num_sensors": 3,
-        "parent_switch": "src_mec_01",
-        "prefix": "faf",
+        "prefix": "MEC:CAT:DOG",
         "root_sensor_port": "0",
         "type": "fms.happi.containers.FMSRaritanItem"
     },
@@ -189,37 +193,9 @@
             "{{prefix}}"
         ],
         "bottom_alarm": null,
-        "creation": "Mon Dec  2 16:49:00 2024",
-        "device_class": null,
-        "documentation": null,
-        "eth_dist_last": 52,
-        "high_alarm": null,
-        "kwargs": {
-            "name": "{{name}}"
-        },
-        "last_connection_name": "temp2",
-        "last_edit": "Mon Dec  2 16:49:00 2024",
-        "location": null,
-        "low_alarm": null,
-        "moderate_alarm": null,
-        "name": "temp3",
-        "num_sensors": 1,
-        "parent_switch": "src_mec_01",
-        "prefix": "fasdf",
-        "root_sensor_port": "0",
-        "type": "fms.happi.containers.FMSRaritanItem"
-    },
-    "temp38": {
-        "_id": "temp38",
-        "active": true,
-        "alert_rule_id": null,
-        "args": [
-            "{{prefix}}"
-        ],
-        "bottom_alarm": null,
-        "captar_in": null,
-        "captar_out": null,
-        "creation": "Mon Dec  2 17:21:33 2024",
+        "captar_in": "L765",
+        "captar_out": "L466",
+        "creation": "Thu Dec  5 10:20:44 2024",
         "device_class": null,
         "documentation": null,
         "eth_dist_last": 10,
@@ -227,15 +203,15 @@
         "kwargs": {
             "name": "{{name}}"
         },
-        "last_connection_name": "temp100",
-        "last_edit": "Mon Dec  2 17:21:33 2024",
-        "location": null,
+        "last_connection_name": "temp1",
+        "last_edit": "Thu Dec  5 10:20:44 2024",
+        "location": "R64A",
         "low_alarm": null,
         "moderate_alarm": null,
-        "name": "temp38",
-        "num_sensors": 3,
+        "name": "temp3",
+        "num_sensors": 1,
         "parent_switch": "src_mec_01",
-        "prefix": "fasdf",
+        "prefix": "MEC:FMS:HMD:01",
         "root_sensor_port": "0",
         "type": "fms.happi.containers.FMSRaritanItem"
     }

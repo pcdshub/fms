@@ -2,7 +2,6 @@
 from happi import Client
 import matplotlib.pyplot as plt
 import networkx as nx 
-
 fms_happi_database = "fms_test.json"
 
 def check_topology(src_controller, port, client=None):
@@ -28,7 +27,9 @@ def check_topology(src_controller, port, client=None):
 
     print(curr_sensor_list)
     for i in range(len(curr_sensor_list)):
-        node_labels[curr_sensor_list[i][sensor_name]] = f"{curr_sensor_list[i][sensor_name]}\n\n MEC-PR60-E2"
+        curr_item = client.find_item(name=curr_sensor_list[i][sensor_name])
+
+        node_labels[curr_sensor_list[i][sensor_name]] = f"{curr_sensor_list[i][sensor_name]}\n{curr_item.location}\n{curr_item.captar_in}\n{curr_item.captar_out}"
         total_cable_len += curr_sensor_list[i][sensor_eth_dis]
         total_sensors += curr_sensor_list[i][num_sensors]
         if i == len(curr_sensor_list) - 1:
@@ -36,8 +37,8 @@ def check_topology(src_controller, port, client=None):
         edges.append((curr_sensor_list[i][sensor_name], curr_sensor_list[i+1][sensor_name]))
         edge_labels[edges[i]] = curr_sensor_list[i + 1][sensor_eth_dis]
 
-    total_cable_len = "total cable len: " + str(total_cable_len) + "ft" + "\nMax: 100ft\n"
-    total_sensors = "total num sensors: " + str(total_sensors) + "\nMax: 36"
+    total_cable_len = "len: " + str(total_cable_len) + "ft" + f"\nMax: {max_cable_len}ft\n"
+    total_sensors = "num sens: " + str(total_sensors) + f"\nMax: {max_sensors}"
 
     totals = total_cable_len + total_sensors
     
@@ -48,12 +49,13 @@ def check_topology(src_controller, port, client=None):
     pos = nx.spring_layout(G)
     #plt.figure()
     fig, ax = plt.subplots() 
+    fig.suptitle(f"{src_controller.name} port: {port}")
     nx.draw(G, pos, with_labels=False, font_weight='bold')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='green')
-    nx.draw_networkx_labels(G, pos, labels=node_labels)
+    nx.draw_networkx_labels(G, pos, labels=node_labels, font_size=9)
     ax.text(0.8,0.10,
         totals,
         horizontalalignment="center",
-        verticalalignment="top")
+        verticalalignment="center")
     fig.tight_layout()
     plt.show()

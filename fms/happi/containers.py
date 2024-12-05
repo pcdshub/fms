@@ -12,6 +12,11 @@ class FMSSRCItem(OphydItem):
     port6 = EntryInfo("An ordered list of sensors on port 6", enforce=list)
     port7 = EntryInfo("An ordered list of sensors on port 7", enforce=list)
 
+    location = EntryInfo("wheres the device installed")
+
+    captar_in = EntryInfo("Inbound captar number", enforce=str )
+    captar_out = EntryInfo("Outbound captar number", enforce=str )
+
 class FMSItem(OphydItem):
     high_alarm = EntryInfo("latching emergency alarm", enforce=int)
     moderate_alarm = EntryInfo("high warning alarm", enforce=int)

@@ -3,11 +3,12 @@ from happi import Client
 from .utils import TypeEnforcer as te
 from happi.item import OphydItem
 from happi.errors import EnforceError, SearchError
-from .happi.containers import FMSRaritanItem, FMSBeckhoffItem, FMSSRCItem
+from .happi.containers import FMSRaritanItem, FMSSRCItem
 from typing import List
 from .check_topology import check_topology
 from .add_sensor import add_sensor
 
+#fms_happi_database = "/reg/g/pcds/pyps/apps/hutch-python/device_config/db.json"
 fms_happi_database = "fms_test.json"
 
 
@@ -35,11 +36,11 @@ def validate():
     if len(results) == 0:
         print("Success! Valid FMS Database.")
     else:
-        print(f'This devices are malformed! {results}')
-
+        print(f'These devices are malformed! {results}')
 
 def get_all_src_status():
     get_src_controllers()
+
 def get_src_controllers(client: Client=None) -> List[str]:
     if client is None:
         client = Client(path=fms_happi_database)
@@ -78,11 +79,11 @@ def SetupArgumentParser():
     parser.add_argument('-p','--port', dest='port', help='src controller port')
 
     parser.add_argument('--list_all_sensors', action='store_true', help="print a list of sensors")
-    parser.add_argument('--check_topology', dest='new_controller', help='print the current FMS topology', default=None)
+    parser.add_argument('--check_topology', dest='src_controller', help='print the current FMS topology', default=None)
     parser.add_argument('--launch_nalms', action='store_true',help="launch the nalms home screen")
     parser.add_argument('--delete_sensor', dest='delete_sensor', help="delete_sensor")
  
-    parser.add_argument('-hn','--happi_name', dest='happi_name', help='happie database name', default=None)
+    parser.add_argument('-hn','--happi_name', dest='happi_name', help='happi database name', default=None)
 
 
 
@@ -93,12 +94,12 @@ def main(argv):
     options = argument_parser.parse_args()
     if options.add_sensor:
         add_fms_sensor(sensor_name=options.add_sensor)
-    elif options.src_controller:
+    elif options.src_controller and not options.port:
         add_src_controller(controller_name=options.src_controller)
     elif options.validate:
         validate() 
-    elif options.new_controller and options.port:
-        check_topology(options.new_controller, options.port)
+    elif options.src_controller and options.port:
+        check_topology(options.src_controller, options.port)
     elif options.delete_sensor:
         delete_sensor(options.delete_sensor)
     else:
