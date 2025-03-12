@@ -82,9 +82,6 @@ def SetupArgumentParser():
     parser.add_argument("-p", "--port", dest="port", help="src controller port")
 
     parser.add_argument(
-        "--list_all_sensors", action="store_true", help="print a list of sensors"
-    )
-    parser.add_argument(
         "--check_topology",
         dest="src_controller",
         help="print the current FMS topology",
