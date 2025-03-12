@@ -1,8 +1,52 @@
 import re
-from happi.item import EntryInfo, HappiItem, OphydItem
+from happi.item import EntryInfo, OphydItem
 from happi.errors import EnforceError
 
-class FMSSRCItem(OphydItem):
+class LCLSItem(OphydItem):
+    name = EntryInfo(('Shorthand Python-valid name for the Python instance. '
+                      'Must be between 3 and 80 characters.'),
+                     optional=False,
+                     enforce=re.compile(r'[a-z][a-z\_0-9]{2,78}$'))
+    beamline = EntryInfo('Section of beamline the device belongs',
+                         optional=False, enforce=str, default="FMS")
+    location_group = EntryInfo('LUCID grouping parameter for location',
+                               optional=False, enforce=str)
+    functional_group = EntryInfo('LUCID grouping parameter for function',
+                                 optional=False, enforce=str)
+    z = EntryInfo('Beamline position of the device',
+                  enforce=float, default=-1.0)
+    stand = EntryInfo('Acronym for stand, must be three alphanumeric '
+                      'characters like an LCLSI stand (e.g. DG3) or follow '
+                      'the LCLSII stand naming convention (e.g. L0S04).',
+                      enforce=re.compile(r'[A-Z0-9]{3}$|[A-Z][0-9]S[0-9]{2}$'))
+    lightpath = EntryInfo("If the device should be included in the "
+                          "LCLS Lightpath", enforce=bool, default=False)
+    input_branches = EntryInfo(('List of branches the device can receive '
+                                'beam from.'),
+                               optional=True, enforce=list)
+    output_branches = EntryInfo(('List of branches the device can deliver '
+                                'beam to.'),
+                                optional=True, enforce=list)
+    ioc_engineer = EntryInfo(('Engineer for the IOC. Used to build IOC '
+                             'configs.'),
+                             optional=True, enforce=str)
+    ioc_location = EntryInfo('Location of the IOC. Used to build IOC configs.',
+                             optional=True, enforce=str)
+    ioc_hutch = EntryInfo(('Hutch the IOC will be used in. Used to build IOC '
+                           'configs.'), optional=True, enforce=str)
+    ioc_release = EntryInfo(('Full path to IOC release directory. Used to '
+                            'build IOC configs.'),
+                            optional=True, enforce=str)
+    ioc_arch = EntryInfo(('The IOC host architecture. Used to build IOC '
+                         'configs.'), optional=True, enforce=str)
+    ioc_name = EntryInfo('The name of the device IOC. Used to build the IOC.',
+                         optional=True, enforce=str)
+    ioc_type = EntryInfo(('The type of device IOC. Useful when multiple '
+                          'device classes can occupy the same controller. Can '
+                          'be used to tell higher level code how to interpret '
+                          'the ioc data.'), optional=True, enforce=str)
+
+class FMSSRCItem(LCLSItem):
     port0 = EntryInfo("An ordered list of sensors on port 0", enforce=list)
     port1 = EntryInfo("An ordered list of sensors on port 1", enforce=list)
     port2 = EntryInfo("An ordered list of sensors on port 2", enforce=list)
@@ -17,7 +61,7 @@ class FMSSRCItem(OphydItem):
     captar_in = EntryInfo("Inbound captar number", enforce=str )
     captar_out = EntryInfo("Outbound captar number", enforce=str )
 
-class FMSItem(OphydItem):
+class FMSItem(LCLSItem):
     high_alarm = EntryInfo("latching emergency alarm", enforce=int)
     moderate_alarm = EntryInfo("high warning alarm", enforce=int)
     low_alarm = EntryInfo("low warning alarm", enforce=int)

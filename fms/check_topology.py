@@ -2,7 +2,7 @@
 from happi import Client
 import matplotlib.pyplot as plt
 import networkx as nx 
-fms_happi_database = "fms_test.json"
+fms_happi_database = "/cds/home/n/nrw/fms/db.json"
 
 def check_topology(src_controller, port, client=None):
     if client == None:
@@ -36,26 +36,31 @@ def check_topology(src_controller, port, client=None):
             continue
         edges.append((curr_sensor_list[i][sensor_name], curr_sensor_list[i+1][sensor_name]))
         edge_labels[edges[i]] = curr_sensor_list[i + 1][sensor_eth_dis]
-
-    total_cable_len = "len: " + str(total_cable_len) + "ft" + f"\nMax: {max_cable_len}ft\n"
-    total_sensors = "num sens: " + str(total_sensors) + f"\nMax: {max_sensors}"
+    print(node_labels)
+    total_cable_len = "len: " + str(total_cable_len) + "ft" + f" Max: {max_cable_len}ft\n"
+    total_sensors = "num sens: " + str(total_sensors) + f" Max: {max_sensors}"
 
     totals = total_cable_len + total_sensors
     
     print(f"preparing graph with edges: {edges}")
     G = nx.Graph()
-    #G.add_nodes_from(nodes)
+
     G.add_edges_from(edges)
     pos = nx.spring_layout(G)
-    #plt.figure()
+
     fig, ax = plt.subplots() 
-    fig.suptitle(f"{src_controller.name} port: {port}")
+    fig.suptitle(f"{src_controller.name} port: {port}\n {totals}")
+    width, height = fig.get_size_inches()
+
+    if len(pos) == 0:
+        #no edges
+        G.add_node(src_controller.name)
+        pos[curr_sensor_list[i][sensor_name]] = (0.5,0.5)
+
     nx.draw(G, pos, with_labels=False, font_weight='bold')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='green')
+    print(f"drawing node labels: {node_labels}")
     nx.draw_networkx_labels(G, pos, labels=node_labels, font_size=9)
-    ax.text(0.8,0.10,
-        totals,
-        horizontalalignment="center",
-        verticalalignment="center")
+
     fig.tight_layout()
     plt.show()

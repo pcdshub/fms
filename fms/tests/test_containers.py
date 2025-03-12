@@ -1,10 +1,11 @@
-from ..happi.containers import FMSRaritanItem, FMSBeckhoffItem, FMSSRCItem, FMSItem
+from ..happi.containers import FMSRaritanItem, FMSSRCItem, FMSItem
 from happi import Client
-from happi.errors import DuplicateError, EntryError, EnforceError
+from happi.errors import EntryError, EnforceError
 from happi.item import OphydItem
 from happi.backends.json_db import JSONBackend
-import os, pytest, json
-from .test_utils import assert_invalid, assert_valid
+import os
+import pytest
+from .test_utils import assert_valid
 
 test_file = "test.db"
 
@@ -22,7 +23,7 @@ def sensors():
     yield sensors
 
 def test_OphydItem(clean_files):
-    client = Client(path=test_file) 
+    client = Client(path=test_file)
 
     item = client.create_item(item_cls=OphydItem,
             name="test",
@@ -40,7 +41,7 @@ def test_OphydItem(clean_files):
     assert_valid(client)
 
 def test_FMSItem(clean_files):
-    client = Client(path=test_file) 
+    client = Client(path=test_file)
 
     item = client.create_item(item_cls=FMSItem,
             name="test",
@@ -48,14 +49,18 @@ def test_FMSItem(clean_files):
             high_alarm=1,
             moderate_alarm=1,
             low_alarm=1,
-            bottom_alarm=1)
+            bottom_alarm=1,
+            beamline="TST",
+            location_group="TST",
+            functional_group="TST"
+            )
 
     item.save()
     assert_valid(client)
 
 def test_FMSRaritanItem(clean_files):
     client = Client(path=test_file) 
-    
+
     #missing required entry info
     with pytest.raises(EntryError):
         item = client.create_item(item_cls=FMSRaritanItem,
@@ -64,7 +69,11 @@ def test_FMSRaritanItem(clean_files):
                 high_alarm=1,
                 moderate_alarm=1,
                 low_alarm=1,
-                bottom_alarm=1)
+                bottom_alarm=1,
+                beamline="TST",
+                location_group="TST",
+                functional_group="TST",
+                num_sensors=1)
 
         item.save()
     #valid data
@@ -77,7 +86,11 @@ def test_FMSRaritanItem(clean_files):
             bottom_alarm=1,
             parent_switch="test_src",
             last_connection_name = "tst-sensor-01",
-            eth_dist_last=3)
+            eth_dist_last=3,
+            beamline="TST",
+            location_group="TST",
+            functional_group="TST",
+            num_sensors=1)
     item.save()
     assert_valid(client)
 
@@ -92,27 +105,16 @@ def test_FMSRaritanItem(clean_files):
                 parent_switch="test_src",
                 root_sensor=True,
                 root_sensor_port="10",
-                eth_dist_last=3)
+                eth_dist_last=3,
+                beamline="TST",
+                location_group="TST",
+                functional_group="TST",
+                num_sensors=1)
         item.save()
 
-def test_FMSBeckhoffItem(clean_files):
-    client = Client(path=test_file) 
-    
-    #valid item
-    item = client.create_item(item_cls=FMSBeckhoffItem,
-            name="test",
-            prefix="TEST:PV",
-            high_alarm=1,
-            moderate_alarm=1,
-            low_alarm=1,
-            bottom_alarm=1)
-
-    item.save()
-    assert_valid(client)
-
 def test_FMSSRCItem(clean_files, sensors):
-    client = Client(path=test_file) 
-    
+    client = Client(path=test_file)
+
     #valid item
     item = client.create_item(item_cls=FMSSRCItem,
             name="test",
@@ -120,7 +122,10 @@ def test_FMSSRCItem(clean_files, sensors):
             high_alarm=1,
             moderate_alarm=1,
             low_alarm=1,
-            bottom_alarm=1)
+            bottom_alarm=1,
+            beamline="TST",
+            location_group="TST",
+            functional_group="TST")
 
     item.save()
     assert_valid(client)
@@ -132,12 +137,15 @@ def test_FMSSRCItem(clean_files, sensors):
             moderate_alarm=1,
             low_alarm=1,
             bottom_alarm=1,
-            port0=sensors)
+            port0=sensors,
+            beamline="TST",
+            location_group="TST",
+            functional_group="TST")
 
     item.save()
     assert_valid(client)
 
     item = client.find_item(name="test1")
     sensors = item.port0
-    assert(type(sensors) == list)
+    assert(type(sensors) is list)
     assert(sensors[0][0] == "temp1")
