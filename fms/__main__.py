@@ -47,6 +47,11 @@ def add_fms_sensor(sensor_name=None, client=None):
     add_sensor(sensor_name, client)
 
 
+def launch_nalms():
+    command = "slam --topics FMS-alarms --bootstrap-servers 172.24.5.232:9094"
+    sys.subprocess(command, shell=True)
+
+
 def SetupArgumentParser():
     parser = argparse.ArgumentParser(
         prog="fms",
@@ -98,6 +103,8 @@ def main(argv):
     options = argument_parser.parse_args()
     if options.add_sensor:
         add_fms_sensor(sensor_name=options.add_sensor)
+    elif options.launch_nalms:
+        launch_nalms()
     elif options.src_controller and not options.port:
         add_src_controller(controller_name=options.src_controller)
     elif options.validate:
