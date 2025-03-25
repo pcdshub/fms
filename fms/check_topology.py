@@ -6,12 +6,12 @@ fms_happi_database = "/cds/home/n/nrw/fms/db.json"
 
 
 def check_topology(src_controller, port, client=None):
-    if client == None:
+    if client is None:
         client = Client(path=fms_happi_database)
     print(src_controller)
     src_controller = client.find_item(name=src_controller)
     curr_sensor_list = getattr(src_controller, "port" + str(port))
-    if curr_sensor_list == None:
+    if curr_sensor_list is None:
         print("No sensors installed on this port")
         return
     edges = []

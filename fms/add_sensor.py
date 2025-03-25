@@ -63,7 +63,6 @@ def add_sensor_to_src(item, client=None):
     if found:
         # installation in middle, update captar.
         if index != len(curr_sensor_list) - 1:
-            print("im in the middle!!! ******")
             print(
                 f"Last={curr_sensor_list[index + 1][sensor_name]} middle={item.name} last={curr_sensor_list[index][sensor_name]}"
             )

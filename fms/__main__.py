@@ -1,6 +1,5 @@
 import argparse
 import sys
-from typing import List
 
 from happi import Client
 from happi.errors import SearchError
@@ -38,17 +37,6 @@ def validate():
         print("Success! Valid FMS Database.")
     else:
         print(f"These devices are malformed! {results}")
-
-
-def get_all_src_status():
-    get_src_controllers()
-
-
-def get_src_controllers(client: Client = None) -> List[str]:
-    if client is None:
-        client = Client(path=fms_happi_database)
-    ret = client.search(name="booch")
-    print(ret)
 
 
 def add_src_controller(controller_name=None, client=None):
