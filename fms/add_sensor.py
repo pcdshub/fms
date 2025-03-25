@@ -1,8 +1,10 @@
+import subprocess
+
 from happi import Client
-from happi.errors import SearchError, EnforceError
+from happi.errors import EnforceError, SearchError
+
 from .happi.containers import FMSRaritanItem, FMSSRCItem
 from .utils import TypeEnforcer as te
-import subprocess
 
 fms_happi_database = "/cds/home/n/nrw/fms/db.json"
 sensor_name = 0

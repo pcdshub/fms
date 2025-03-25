@@ -16,12 +16,12 @@ import fms
 DESCRIPTION = __doc__
 
 
-MODULES = ("help", )
+MODULES = ("help",)
 
 
 def _try_import(module):
-    relative_module = f'.{module}'
-    return importlib.import_module(relative_module, 'fms.bin')
+    relative_module = f".{module}"
+    return importlib.import_module(relative_module, "fms.bin")
 
 
 def _build_commands():
@@ -36,15 +36,15 @@ def _build_commands():
             unavailable.append((module, ex))
         else:
             result[module] = (mod.build_arg_parser, mod.main)
-            DESCRIPTION += f'\n    $ fms {module} --help'
+            DESCRIPTION += f"\n    $ fms {module} --help"
 
     if unavailable:
-        DESCRIPTION += '\n\n'
+        DESCRIPTION += "\n\n"
 
         for module, ex in unavailable:
             DESCRIPTION += (
                 f'\nWARNING: "fms {module}" is unavailable due to:'
-                f'\n\t{ex.__class__.__name__}: {ex}'
+                f"\n\t{ex.__class__.__name__}: {ex}"
             )
 
     return result
@@ -55,26 +55,29 @@ COMMANDS = _build_commands()
 
 def main():
     top_parser = argparse.ArgumentParser(
-        prog='fms',
+        prog="fms",
         description=DESCRIPTION,
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=argparse.RawTextHelpFormatter,
     )
 
     top_parser.add_argument(
-        '--version', '-V',
-        action='version',
+        "--version",
+        "-V",
+        action="version",
         version=fms.__version__,
-        help="Show the fms version number and exit."
+        help="Show the fms version number and exit.",
     )
 
     top_parser.add_argument(
-        '--log', '-l', dest='log_level',
-        default='INFO',
+        "--log",
+        "-l",
+        dest="log_level",
+        default="INFO",
         type=str,
-        help='Python logging level (e.g. DEBUG, INFO, WARNING)'
+        help="Python logging level (e.g. DEBUG, INFO, WARNING)",
     )
 
-    subparsers = top_parser.add_subparsers(help='Possible subcommands')
+    subparsers = top_parser.add_subparsers(help="Possible subcommands")
     for command_name, (build_func, main) in COMMANDS.items():
         sub = subparsers.add_parser(command_name)
         build_func(sub)
@@ -82,15 +85,15 @@ def main():
 
     args = top_parser.parse_args()
     kwargs = vars(args)
-    log_level = kwargs.pop('log_level')
+    log_level = kwargs.pop("log_level")
 
-    logger = logging.getLogger('fms')
+    logger = logging.getLogger("fms")
     logger.setLevel(log_level)
     logging.basicConfig()
 
-    if hasattr(args, 'func'):
-        func = kwargs.pop('func')
-        logger.debug('%s(**%r)', func.__name__, kwargs)
+    if hasattr(args, "func"):
+        func = kwargs.pop("func")
+        logger.debug("%s(**%r)", func.__name__, kwargs)
         if iscoroutinefunction(func):
             asyncio.run(func(**kwargs))
         else:
@@ -99,5 +102,5 @@ def main():
         top_parser.print_help()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -2,13 +2,14 @@ from typing import List
 
 max_retry = 3
 
+
 class TypeEnforcer:
     def get_bool(prompt: str) -> bool:
         while True:
             try:
                 value = bool(input(prompt))
                 if value == "":
-                    value = False 
+                    value = False
                 return value
             except ValueError:
                 print("invalid, input bool")

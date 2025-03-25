@@ -1,11 +1,13 @@
-import sys
 import argparse
+import sys
+from typing import List
+
 from happi import Client
 from happi.errors import SearchError
-from .happi.containers import FMSRaritanItem
-from typing import List
-from .check_topology import check_topology
+
 from .add_sensor import add_sensor
+from .check_topology import check_topology
+from .happi.containers import FMSRaritanItem
 
 fms_happi_database = "/cds/home/n/nrw/fms/db.json"
 
@@ -118,6 +120,7 @@ def main(argv):
         delete_sensor(options.delete_sensor)
     else:
         argument_parser.print_help()
+
 
 if __name__ == "__main__":
     main(sys.argv)
