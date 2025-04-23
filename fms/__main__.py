@@ -1,4 +1,6 @@
 import argparse
+import os
+import subprocess
 import sys
 
 from happi import Client
@@ -8,7 +10,13 @@ from .add_sensor import add_sensor
 from .check_topology import check_topology
 from .happi.containers import FMSRaritanItem
 
-fms_happi_database = "/cds/home/n/nrw/fms/db.json"
+fms_happi_database = os.environ["HAPPI_CFG"]
+
+with open(fms_happi_database, "r") as file:
+    lines = file.readlines()
+    for line in lines:
+        if "path" in line:
+            fms_happi_database = line.split("=")[1].strip()
 
 
 def delete_sensor(sensor_name, client=None):
@@ -49,7 +57,12 @@ def add_fms_sensor(sensor_name=None, client=None):
 
 def launch_nalms():
     command = "slam --topics FMS-alarms --bootstrap-servers 172.24.5.232:9094"
-    sys.subprocess(command, shell=True)
+    subprocess.run(command, shell=True)
+
+
+def home():
+    command = "Lucid FMS"
+    subprocess.run(command, shell=True)
 
 
 def SetupArgumentParser():
@@ -96,6 +109,9 @@ def SetupArgumentParser():
     )
 
     return parser
+
+
+print(f"the happi config is set to: {fms_happi_database}")
 
 
 def main(argv):

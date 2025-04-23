@@ -1,8 +1,16 @@
+import os
+
 import matplotlib.pyplot as plt
 import networkx as nx
 from happi import Client
 
-fms_happi_database = "/cds/home/n/nrw/fms/db.json"
+fms_happi_database = os.environ["HAPPI_CFG"]
+
+with open(fms_happi_database, "r") as file:
+    lines = file.readlines()
+    for line in lines:
+        if "path" in line:
+            fms_happi_database = line.split("=")[1].strip()
 
 
 def check_topology(src_controller, port, client=None):

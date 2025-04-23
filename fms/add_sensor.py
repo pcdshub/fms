@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 from happi import Client
@@ -6,7 +7,14 @@ from happi.errors import EnforceError, SearchError
 from .happi.containers import FMSRaritanItem, FMSSRCItem
 from .utils import TypeEnforcer as te
 
-fms_happi_database = "/cds/home/n/nrw/fms/db.json"
+fms_happi_database = os.environ["HAPPI_CFG"]
+
+with open(fms_happi_database, "r") as file:
+    lines = file.readlines()
+    for line in lines:
+        if "path" in line:
+            fms_happi_database = line.split("=")[1].strip()
+
 sensor_name = 0
 
 
