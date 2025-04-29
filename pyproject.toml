@@ -59,7 +59,7 @@ addopts = "--cov=."
 
 [tool.ruff]
 line-length = 88
-exclude = [".git", "__pycache__", "build", "dist", "fms/_version.py"]
+exclude = [".git", "__pycache__", "build", "dist", "fms/_version.py", "docs/"]
 
 [tool.ruff.lint]
 select = ["C", "E", "F", "W", "B"]
