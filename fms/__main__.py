@@ -65,7 +65,7 @@ def home():
     subprocess.run(command, shell=True)
 
 
-def SetupArgumentParser():
+def setup_argument_parser():
     parser = argparse.ArgumentParser(
         prog="fms",
         description="A module for managing facillity monitoring raritan devices",
@@ -115,7 +115,7 @@ print(f"the happi config is set to: {fms_happi_database}")
 
 
 def main(argv):
-    argument_parser = SetupArgumentParser()
+    argument_parser = setup_argument_parser()
     options = argument_parser.parse_args()
     if options.add_sensor:
         add_fms_sensor(sensor_name=options.add_sensor)
