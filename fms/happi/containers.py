@@ -86,6 +86,11 @@ class LCLSItem(OphydItem):
 
 
 class FMSSRCItem(LCLSItem):
+    """
+    Adds a list to support tracking which sensors are
+    installed.
+    """
+
     port0 = EntryInfo("An ordered list of sensors on port 0", enforce=list)
     port1 = EntryInfo("An ordered list of sensors on port 1", enforce=list)
     port2 = EntryInfo("An ordered list of sensors on port 2", enforce=list)
@@ -102,18 +107,23 @@ class FMSSRCItem(LCLSItem):
 
 
 class FMSItem(LCLSItem):
+    """
+    Add attributes to track alarm values.
+    """
+
     high_alarm = EntryInfo("latching emergency alarm", enforce=int)
     moderate_alarm = EntryInfo("high warning alarm", enforce=int)
     low_alarm = EntryInfo("low warning alarm", enforce=int)
     bottom_alarm = EntryInfo("latching low emergency alarm", enforce=int)
 
     location = EntryInfo("wheres the device installed")
-    alert_rule_id = EntryInfo(
-        "the alert rule linked to this item in grafana", default=None
-    )
 
 
 class FMSRaritanItem(FMSItem):
+    """
+    Meta information about each FMS sensor.
+    """
+
     def less_than_100(val):
         if int(val) <= 100:
             return val
