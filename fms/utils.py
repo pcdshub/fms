@@ -4,6 +4,8 @@ max_retry = 3
 
 
 class TypeEnforcer:
+    """Helper functions to groom user input."""
+
     def get_bool(prompt: str) -> bool:
         while True:
             try:

@@ -19,6 +19,16 @@ sensor_name = 0
 
 
 def update_captar(first_name, middle_item, last_name, client=None):
+    """Update the captar entries when a new item is added
+    in between two previously installed sensors.
+
+    Args:
+        first_name (str): Upstream sensor.
+        middle_item (str): Sensor to be installed.
+        last_name (str): Downstream sensor.
+        client (str, optional):
+            Path to database file. Defaults to None.
+    """
     if client is None:
         client = Client(path=fms_happi_database)
     first_item = client.find_item(name=first_name)
@@ -37,6 +47,18 @@ def update_captar(first_name, middle_item, last_name, client=None):
 
 
 def find_port(name, client=None):
+    """Search for the name in the happi database
+    and load the object.
+
+    Args:
+        name (str): Happi entry to look for.
+        client (str, optional):
+            Path to database file. Defaults to None.
+
+    Returns:
+        object:
+            An instantiated version of the item.
+    """
     if client is None:
         client = Client(path=fms_happi_database)
     item = client.find_item(name=name)
@@ -44,6 +66,16 @@ def find_port(name, client=None):
 
 
 def add_sensor_to_src(item, client=None):
+    """After a raritan sensor is added to the database
+    this function adds it to the parent src 800 controller
+    in the correct order.
+
+    Args:
+        item (object):
+            An instantiated version of the item.
+        client (str, optional):
+            The path to the happi database.
+    """
     if client is None:
         client = Client(path=fms_happi_database)
 
@@ -93,6 +125,14 @@ def add_sensor_to_src(item, client=None):
 
 
 def add_sensor(sensor_name, client):
+    """A command line tool that walks the user through
+    adding an fms sensor to the fms happi database file.
+
+    Args:
+        sensor_name (str): Sensor name to add.
+        client (str):
+            The path to the happi database.
+    """
     if client is None:
         client = Client(path=fms_happi_database)
 
