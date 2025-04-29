@@ -36,7 +36,9 @@ def delete_sensor(sensor_name, client=None):
             parent_switch_item.save()
         except SearchError:
             ...
+    print(f"attempting to delete: {sensor_name}")
     client.remove_item(item)
+    print(f"deleted: {sensor_name}")
 
 
 def validate():
