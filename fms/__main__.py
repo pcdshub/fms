@@ -20,6 +20,7 @@ with open(fms_happi_database, "r") as file:
 
 
 def delete_sensor(sensor_name, client=None):
+    """Delete an FMS sensor from the database"""
     if client is None:
         client = Client(path=fms_happi_database)
     item = client.find_item(name=sensor_name)
@@ -39,6 +40,7 @@ def delete_sensor(sensor_name, client=None):
 
 
 def validate():
+    """Ensure the happi database isnt malformed"""
     client = Client(path=fms_happi_database)
     results = client.validate()
     if len(results) == 0:
@@ -48,14 +50,25 @@ def validate():
 
 
 def add_src_controller(controller_name=None, client=None):
+    """Add a new Raritan src800 Controller. Usually
+    one per hutch.
+
+    Args:
+        controller_name (str, optional):
+            Src name to add. Defaults to None.
+        client (str, optional):
+            Path to happi database. Defaults to None.
+    """
     add_sensor(controller_name, client)
 
 
 def add_fms_sensor(sensor_name=None, client=None):
+    """Add a new sensor to FMS"""
     add_sensor(sensor_name, client)
 
 
 def launch_nalms():
+    """Easy method for launching FMS nalms"""
     command = "slam --topics FMS-alarms --bootstrap-servers 172.24.5.232:9094 &"
     subprocess.run(command, shell=True)
 

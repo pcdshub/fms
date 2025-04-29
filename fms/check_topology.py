@@ -14,7 +14,7 @@ with open(fms_happi_database, "r") as file:
 
 
 def check_topology(src_controller, port, client=None):
-    """Take an src controller name and port and creates
+    """Takes an src controller name and port and creates
     a networkx topology graph. Keeps a running total
     of Ethernet length and sensors installed.
 
