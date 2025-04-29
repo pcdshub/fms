@@ -56,12 +56,7 @@ def add_fms_sensor(sensor_name=None, client=None):
 
 
 def launch_nalms():
-    command = "slam --topics FMS-alarms --bootstrap-servers 172.24.5.232:9094"
-    subprocess.run(command, shell=True)
-
-
-def home():
-    command = "Lucid FMS"
+    command = "slam --topics FMS-alarms --bootstrap-servers 172.24.5.232:9094 &"
     subprocess.run(command, shell=True)
 
 
