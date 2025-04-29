@@ -15,7 +15,7 @@ with open(fms_happi_database, "r") as file:
         if "path" in line:
             fms_happi_database = line.split("=")[1].strip()
 
-sensor_name = 0
+sensor_name_pos = 0
 
 
 def update_captar(first_name, middle_item, last_name, client=None):
@@ -94,7 +94,7 @@ def add_sensor_to_src(item, client=None):
         if "src" in item.last_connection_name:
             found = True
             break
-        elif sensor[sensor_name] == item.last_connection_name:
+        elif sensor[sensor_name_pos] == item.last_connection_name:
             found = True
             break
         else:
@@ -104,12 +104,12 @@ def add_sensor_to_src(item, client=None):
         # installation in middle, update captar.
         if index != len(curr_sensor_list) - 1:
             print(
-                f"Last={curr_sensor_list[index + 1][sensor_name]} middle={item.name} last={curr_sensor_list[index][sensor_name]}"
+                f"Last={curr_sensor_list[index + 1][sensor_name_pos]} middle={item.name} last={curr_sensor_list[index][sensor_name_pos]}"
             )
             update_captar(
-                curr_sensor_list[index][sensor_name],
+                curr_sensor_list[index][sensor_name_pos],
                 item,
-                curr_sensor_list[index + 1][sensor_name],
+                curr_sensor_list[index + 1][sensor_name_pos],
             )
 
         curr_sensor_list.insert(
