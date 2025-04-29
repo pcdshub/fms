@@ -6,7 +6,7 @@ from happi.backends.json_db import JSONBackend
 from happi.errors import SearchError
 from happi.item import OphydItem
 
-from fms.__main__ import add_fms_sensor, add_src_controller, delete_sensor
+from fms.__main__ import add_fms_sensor, delete_sensor
 
 from ..happi.containers import FMSSRCItem
 from .test_utils import assert_valid, sensor_in_list
@@ -22,7 +22,7 @@ def clean_files(monkeypatch):
 
     inputs = iter(["N", "TST:PV", "R64", "L88", "L77", "TST", "TST", "class"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-    add_src_controller("src_tst_01", client)
+    add_fms_sensor("src_tst_01", client)
 
     yield client, sensor
 
@@ -70,7 +70,7 @@ def test_add_src_controller(clean_files, monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
     client, sensor = clean_files
-    add_src_controller("a_new_src_controller", client)
+    add_fms_sensor("a_new_src_controller", client)
 
     item = client.find_item(name="a_new_src_controller")
     assert item.name == "a_new_src_controller"
@@ -78,7 +78,7 @@ def test_add_src_controller(clean_files, monkeypatch):
     inputs = iter([1, 1, 1, 1, 1])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     with pytest.raises(ValueError):
-        add_src_controller("a_bad_src_controller", client)
+        add_fms_sensor("a_bad_src_controller", client)
 
 
 def test_add_root_raritan_sensor(clean_files, monkeypatch):

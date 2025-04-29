@@ -51,19 +51,6 @@ def validate():
         print(f"These devices are malformed! {results}")
 
 
-def add_src_controller(controller_name=None, client=None):
-    """Add a new Raritan src800 Controller. Usually
-    one per hutch.
-
-    Args:
-        controller_name (str, optional):
-            Src name to add. Defaults to None.
-        client (str, optional):
-            Path to happi database. Defaults to None.
-    """
-    add_sensor(controller_name, client)
-
-
 def add_fms_sensor(sensor_name=None, client=None):
     """Add a new sensor to FMS"""
     add_sensor(sensor_name, client)
@@ -132,7 +119,7 @@ def main(argv):
     elif options.launch_nalms:
         launch_nalms()
     elif options.src_controller and not options.port:
-        add_src_controller(controller_name=options.src_controller)
+        add_fms_sensor(sensor_name=options.src_controller)
     elif options.validate:
         validate()
     elif options.src_controller and options.port:
